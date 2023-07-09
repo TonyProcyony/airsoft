@@ -17,18 +17,22 @@ import 'package:as_games/screens/UserScreen.dart';
 import 'package:as_games/screens/WritePostScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'dart:io';
 
 import 'cupertino/CupertinoApp.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  if (Platform.isIOS) {
+  final isIos = Platform.isIOS;
+  if (isIos) {
     runApp(const MyCupertinoApp());
+  } else {
+    runApp(const MyApp());
   }
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

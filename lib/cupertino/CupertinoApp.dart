@@ -1,9 +1,7 @@
-import 'package:as_games/screens/ClubScreen.dart';
-import 'package:as_games/screens/GamesScreen.dart';
-import 'package:as_games/screens/HomeScreen.dart';
-import 'package:as_games/screens/SearchScreen.dart';
-import 'package:as_games/screens/UserScreen.dart';
+import 'package:as_games/widgets/ContainerPadding.dart';
+import 'package:as_games/widgets/UserAvatarWidget.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class MyCupertinoApp extends StatelessWidget {
   const MyCupertinoApp({super.key});
@@ -33,23 +31,23 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(items: const [
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.home),
+          icon: Icon(Icons.radar),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.game_controller),
+          icon: Icon(Icons.forest),
           label: 'Games',
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.search),
+          icon: Icon(Icons.search),
           label: 'Cerca',
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.person_3_fill),
+          icon: Icon(Icons.group),
           label: 'Club',
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.person_fill),
+          icon: Icon(Icons.military_tech),
           label: 'Profilo',
         ),
       ]),
@@ -57,27 +55,44 @@ class _CupertinoHomePageState extends State<CupertinoHomePage> {
         return switch (index) {
           0 => CupertinoTabView(
               builder: (context) => const CupertinoPageScaffold(
-                child: HomeScreen(),
+                child: Center(
+                  child: Text('Home Screen'),
+                ),
               ),
             ),
           1 => CupertinoTabView(
               builder: (context) => const CupertinoPageScaffold(
-                child: GamesScreen(),
+                child: Center(
+                  child: Text('Games Screen'),
+                ),
               ),
             ),
           2 => CupertinoTabView(
               builder: (context) => const CupertinoPageScaffold(
-                child: SearchScreen(),
+                child: Center(
+                  child: Text('Search Screen'),
+                ),
               ),
             ),
           3 => CupertinoTabView(
               builder: (context) => const CupertinoPageScaffold(
-                child: ClubScreen(),
+                child: Center(
+                  child: Text('Club Screen'),
+                ),
               ),
             ),
           4 => CupertinoTabView(
               builder: (context) => const CupertinoPageScaffold(
-                child: UserScreen(),
+                child: SafeArea(
+                  child: ContainerPadding(
+                    yPadding: 10,
+                    widget: Column(
+                      children: [
+                        UserAvatarWidget(myProfile: true),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           _ => throw Exception('Invalid index $index'),

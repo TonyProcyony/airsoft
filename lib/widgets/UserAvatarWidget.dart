@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:as_games/screens/SettingsScreen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UserAvatarWidget extends StatefulWidget {
-  const UserAvatarWidget({super.key, this.myProfile});
+  const UserAvatarWidget({super.key, required this.myProfile});
 
   final bool? myProfile;
 
@@ -12,6 +15,8 @@ class UserAvatarWidget extends StatefulWidget {
 
 class _UserAvatarWidgetState extends State<UserAvatarWidget> {
   bool follow = false;
+
+  final isIos = Platform.isIOS;
 
   @override
   Widget build(BuildContext context) {
@@ -69,27 +74,47 @@ class _UserAvatarWidgetState extends State<UserAvatarWidget> {
             ],
           ),
           widget.myProfile!
-              ? IconButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(SettingsScreen.routeName),
-                  icon: const Icon(Icons.settings_outlined),
-                )
-              : follow
-                  ? OutlinedButton(
-                      onPressed: () => setState(() {
-                        follow = false;
-                      }),
-                      child: const Icon(
-                        Icons.close,
-                        color: Colors.black,
-                      ),
+              ? isIos
+                  ? CupertinoButton(
+                      onPressed: () => Navigator.of(context)
+                          .pushNamed(SettingsScreen.routeName),
+                      child: const Icon(Icons.settings_outlined),
                     )
-                  : ElevatedButton(
-                      onPressed: () => setState(() {
-                        follow = true;
-                      }),
-                      child: const Text('Segui'),
-                    ),
+                  : IconButton(
+                      onPressed: () => Navigator.of(context)
+                          .pushNamed(SettingsScreen.routeName),
+                      icon: const Icon(Icons.settings_outlined),
+                    )
+              : follow
+                  ? isIos
+                      ? CupertinoButton(
+                          child: const Icon(Icons.close),
+                          onPressed: () => setState(() {
+                            follow = false;
+                          }),
+                        )
+                      : OutlinedButton(
+                          onPressed: () => setState(() {
+                            follow = false;
+                          }),
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.black,
+                          ),
+                        )
+                  : isIos
+                      ? CupertinoButton.filled(
+                          child: const Text('Segui'),
+                          onPressed: () => setState(() {
+                            follow = true;
+                          }),
+                        )
+                      : ElevatedButton(
+                          onPressed: () => setState(() {
+                            follow = true;
+                          }),
+                          child: const Text('Segui'),
+                        ),
         ],
       ),
     );
