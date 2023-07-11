@@ -45,14 +45,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 228, 185, 105),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 228, 185, 105),
-          foregroundColor: Colors.white,
+          backgroundColor: Colors.white,
+          foregroundColor: Color.fromARGB(255, 228, 185, 105),
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+          ),
         ),
         brightness: Brightness.light,
         colorScheme: const ColorScheme.light(
           background: Colors.white,
           error: Colors.red,
           primary: Color.fromARGB(255, 228, 185, 105),
+          // surfaceTint: const Color.fromARGB(255, 228, 185, 105),
         ),
         datePickerTheme: const DatePickerThemeData(),
         elevatedButtonTheme: const ElevatedButtonThemeData(

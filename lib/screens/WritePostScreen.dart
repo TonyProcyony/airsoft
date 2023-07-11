@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:as_games/widgets/ContainerPadding.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class WritePostScreen extends StatefulWidget {
   static const routeName = '/write-post';
@@ -10,10 +13,27 @@ class WritePostScreen extends StatefulWidget {
 }
 
 class _WritePostScreenState extends State<WritePostScreen> {
+  File? img;
+  void takeImage() async {
+    final picker = ImagePicker();
+    final image = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+    );
+    if (image == null) {
+      return;
+    }
+    setState(() {
+      img = File(image.path);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Crea post'),
+      ),
       body: ContainerPadding(
         yPadding: 10,
         widget: Form(
@@ -23,22 +43,36 @@ class _WritePostScreenState extends State<WritePostScreen> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    hintText: 'Cos\'hai di nuovo?',
+                    hintStyle: TextStyle(
+                      fontSize: 24,
                     ),
                   ),
+                  autofocus: true,
+                  minLines: 1,
                   maxLines: 5,
                 ),
               ),
-              IconButton(
-                onPressed: () {},
+              img != null
+                  ? SizedBox(
+                      height: 220,
+                      width: double.infinity,
+                      child: Image.file(
+                        img!,
+                        fit: BoxFit.contain,
+                        width: double.infinity,
+                      ),
+                    )
+                  : Container(),
+              TextButton.icon(
+                onPressed: takeImage,
                 icon: const Icon(
                   Icons.attach_file,
                 ),
+                label: const Text('Aggiungi media'),
               )
             ],
           ),
@@ -46,7 +80,7 @@ class _WritePostScreenState extends State<WritePostScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
-        label: const Text("Scrivi il post"),
+        label: const Text("Conividi"),
       ),
     );
   }
